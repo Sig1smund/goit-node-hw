@@ -1,4 +1,4 @@
-!(https://monosnap.com/file/i1Rg1xamdH27eAkR4e9EYIlhhzUzdi.png)
+!(https://monosnap.com/file/i1Rg1xamdH27eAkR4e9EYIlhhzUzdi)
 
 !(https://monosnap.com/file/WsMHhrt7zknYcMjpAheDL3DStxSl9d)
 
