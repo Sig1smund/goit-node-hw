@@ -1,4 +1,4 @@
-!(https://monosnap.com/file/i1Rg1xamdH27eAkR4e9EYIlhhzUzdi)
+!(https://github.com/Sig1smund/goit-node-hw-01/blob/main/data/Снимок%20экрана%202023-07-13%20в%2017.47.00.png?raw=true)
 
 !(https://monosnap.com/file/WsMHhrt7zknYcMjpAheDL3DStxSl9d)
 
