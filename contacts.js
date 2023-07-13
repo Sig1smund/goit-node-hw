@@ -1,72 +1,41 @@
 const fs = require("fs").promises;
 const path = require("node:path");
 
-const contactsPath = path.dirname("./db/contacts.json");
+const contactsPath = path.join(__dirname, "db/contacts.json");
 
-// TODO: задокументировать каждую функцию
-function listContacts() {
-  fs.readFile(contactsPath, (error, data) => {
-    if (error) {
-      console.error(error);
-      return;
-    }
-    return data;
-  });
+async function listContacts() {
+  const contacts = await fs.readFile(contactsPath, "utf8");
+  return console.table(JSON.parse(contacts));
 }
 
-function getContactById(contactId) {
-  let contacts;
-  fs.readFile(contactsPath, (error, data) => {
-    if (error) {
-      console.error(error);
-      return;
-    }
-    contacts = data;
-    const contact = contacts.filter((contact) => contact.id === contactId);
-    return contact.id === contactId ? contact : null;
-  });
-  // ...твой код. Возвращает объект контакта с таким id. Возвращает null, если объект с таким id не найден.
+async function getContactById(contactId) {
+  const contacts = await fs.readFile(contactsPath, "utf8");
+  const contact = JSON.parse(contacts).find((item) => item.id === contactId);
+  return contact || null;
 }
 
-function removeContact(contactId) {
-  let contacts;
-  fs.readFile(contactsPath, (error, data) => {
-    if (error) {
-      console.error(error);
-      return;
-    }
-    contacts = JSON.parse(data);
-    const index = contacts.findIndex((item) => item.id === contactId);
-    const erasedContact = contactsPath.splice(index, 1);
-    fs.writeFile(contactsPath, JSON.stringify(erasedContact), (error) => {
-      if (error) {
-        console.error(error);
-        return;
-      }
-    });
-  });
-  // ...твой код. Возвращает объект удаленного контакта. Возвращает null, если объект с таким id не найден.
+async function removeContact(contactId) {
+  const contacts = await fs.readFile(contactsPath, "utf8");
+  const contactsArray = JSON.parse(contacts);
+  const index = contactsArray.findIndex((item) => item.id === contactId);
+  if (index === -1) return null;
+  const [result] = contactsArray.splice(index, 1);
+  await fs.writeFile(contactsPath, JSON.stringify(contactsArray, null, 2));
+  return result || null;
 }
 
-function addContact(name, email, phone) {
-  let contacts;
+async function addContact(name, email, phone) {
+  const contacts = await fs.readFile(contactsPath, "utf8");
+  const contactsArray = JSON.parse(contacts);
   const newContact = {
     id: contactsPath.length + 1,
     name,
     email,
     phone,
   };
-  fs.readFile(contactsPath, (error, data) => {
-    if (error) {
-      console.error(error);
-      return;
-    }
-    contacts = data;
-    contacts.push(newContact);
-    return newContact;
-  });
-
-  // ...твой код. Возвращает объект добавленного контакта.
+  contactsArray.push(newContact);
+  await fs.writeFile(contactsPath, JSON.stringify(contactsArray, null, 2));
+  return newContact;
 }
 
 module.exports = {
